@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+  version="2.0">
+  
+	<description>自定义标签</description>
+	<display-name>zfn functions</display-name>
+	<tlib-version>1.0</tlib-version>
+	<short-name>zfn</short-name><!-- prefix="tz" -->
+	<uri></uri>
+  
+	<function>
+		<!--对你这个业务标签的描述-->
+	    <description>根据状态值获取文字说明 0 正常 1 停止</description>
+	    <!--标签的名称，最好和方法名称同名-->
+	    <name>statusps</name>
+	    <!--代表标签类-->
+	    <function-class>com.cps.rom.tag.FunctionsTag</function-class>
+	    <!--对应执行的方法的名称，和返回值-->
+	    <function-signature>java.lang.String getStatusPS(java.lang.Integer)</function-signature>
+	    <example></example>  
+	</function>
+ </taglib>

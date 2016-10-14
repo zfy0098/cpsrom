@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.cps.rom.dao.ProductDao">
+	<resultMap type="com.cps.rom.entity.Product" id="productBean">
+		<id column="id" property="id" />  
+        <result column="proid" property="proid" />  
+        <result column="proname" property="proname" />  
+        <result column="proimg" property="proimg" />  
+        <result column="proprice" property="proprice" />  
+        <result column="prourl" property="prourl" />
+        <result column="prospread" property="prospread" />
+        <result column="prostatus" property="prostatus" /> 
+        <result column="commissionrate" property="commissionrate"/>
+        <result column="commission" property="commission"/>
+        <result column="levels" property="levels" />
+        <result column="indate" property="indate"/>
+	</resultMap>
+	<!-- 添加商品 -->
+	<insert  id="addPro" parameterType="productBean" useGeneratedKeys="true"  keyProperty="id">
+		insert into product (proid,proname,proimg,proprice,prourl,prospread,prostatus,
+		commissionrate,commission,levels,indate)
+		 values (#{proid},#{proname},#{proimg},#{proprice},#{prourl},#{prospread},#{prostatus},
+		 #{commissionrate},#{commission},#{levels},now())
+	</insert>
+	
+	<!--  根据文件形式 批量添加商品 -->
+	<insert id="addexcelpro" parameterType="java.util.ArrayList" >
+		insert into product (proid,proname,proprice,prourl,prospread,prostatus,
+		commissionrate,commission,levels,indate) values
+		<foreach collection="list" item="list" index="index" separator="," >  
+	       	(#{list.proid},#{list.proname},#{list.proprice},#{list.prourl},#{list.prospread},
+	       	#{list.prostatus},#{list.commissionrate},#{list.commission},#{list.levels},now())  
+	    </foreach> 
+	</insert>
+	
+    
+    <!--  查询商品列表  -->
+    <select id="prolist" resultMap="productBean">
+    	select id,proid,proname,proimg,proprice,prourl,prostatus,commission,levels,indate from product
+    </select>
+    
+    <!--  查询商品数量 -->
+    <select id="productCount" resultType="java.lang.Integer">
+    	select count(1) as count from product;
+    </select>
+    
+    
+    <!--  查询某个商品的详细信息 -->
+    <select id="getProByid" parameterType="java.lang.String" resultMap="productBean" >
+    	select * from product where id=#{id};
+    </select>
+    
+    <!--   修改商品信息 -->
+    <update id="updatePro" parameterType="productBean">
+    	update product set proname=#{proname},proimg=#{proimg},proprice=#{proprice},prourl=#{prourl},
+    	prospread=#{prospread},prostatus=#{prostatus},commissionrate=#{commissionrate},commission=#{commission},
+    	levels=#{levels} where id=#{id}
+    </update>
+    
+    
+    
+</mapper>

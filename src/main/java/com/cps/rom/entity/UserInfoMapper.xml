@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.cps.rom.dao.UserInfoDao">
+	<resultMap type="com.cps.rom.entity.UserInfo" id="userInfoBean">
+		<id column="id" property="id" />  
+        <result column="username" property="userName" />  
+        <result column="password" property="passWord" />  
+        <result column="usex" property="uSex" />  
+        <result column="uphone" property="uPhone" />  
+        <result column="uaddress" property="uAddress" /> 
+        <result column="level" property="level" /> 
+	</resultMap>
+	
+	 <!-- 根据id查询Person, 关联将Orders查询出来 -->  
+    <select id="userLogin" parameterType="string" resultMap="userInfoBean">  
+    	select * from userinfo where username=#{userName}
+    </select> 
+    
+    
+</mapper>

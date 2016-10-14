@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.cps.rom.dao.ProductDao">
+	<resultMap type="com.cps.rom.entity.Protype" id="protypeBean">
+		<id column="id" property="id" />  
+        <result column="name" property="name" />  
+        <result column="parent" property="parent" />  
+        <result column="typeid" property="typeid" />
+        
+        <collection property="typelist"  ofType="protypeBean" >
+	        <id column="childid" property="id"/>
+		    <result column="childname" property="name" />  
+		    <result column="childparend" property="parent" />
+		    <result column="childtypeid" property="typeid"/>
+	    </collection>
+	</resultMap>
+	
+	<!--  查询商品类型集合 -->
+	<select id="protypelist" resultMap="protypeBean">
+		select a.* , b.* from (select id,name ,parent, typeid from protype where parent is null ) as a 
+		LEFT JOIN (select id as childid, name as childname ,parent as childparend ,
+		 typeid as typeid from protype where parent is not null) as b ON a.typeid=b.childparend;
+	</select>
+	
+    <!-- 添加商品类型 -->
+    <insert id="addprotype" parameterType="protypeBean" useGeneratedKeys="true" keyProperty="id" >
+		insert into protype (name
+		<if test="parent!='0'.toString()">
+			,parent
+		</if>
+		,typeid) values (#{name}
+		<if test="parent!='0'.toString()">
+			,#{parent}
+		</if>
+		,#{typeid})
+    </insert>
+    
+    <update id="updatePortype" parameterType="protypeBean">
+    	update protype set name=#{name} where id=#{id}
+    </update>
+    
+    
+    
+</mapper>
