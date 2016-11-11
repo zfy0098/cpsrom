@@ -1,0 +1,51 @@
+	<resultMap type="com.rom.entity.Customer" id="customerBean">  
+        <id column="customerId" property="customerId"/>
+        <result column="customerName" property="customerName"/>  
+        <result column="customerTel" property="customerTel"/>       
+        <!-- 一对多的关系 -->  
+        <!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型 -->  
+        <collection property="tickets" ofType="com.rom.entity.Ticket">  
+            <id column="ticketId" property="ticketId"/>  
+            <result column="ticketAddress" property="ticketAddress"/>  
+            <result column="ticketPrice" property="ticketPrice"/>  
+            <result column="ticketCId" property="ticketCId"/>  
+        </collection>  
+    </resultMap>
+	
+	<!-- 定义数据库字段与实体对象的映射关系  -->  
+    <resultMap type="com.rom.entity.Ticket" id="ticketBean">  
+        <id column="ticketId" property="ticketId" />  
+        <result column="ticketAddress" property="ticketAddress" />  
+        <result column="ticketPrice" property="ticketPrice" />  
+        <result column="ticketCId" property="ticketCId" />  
+        <!-- 一对一的关系 -->  
+        <!-- property: 指的是属性的值, javaType：指的是元素的类型 -->  
+        <association property="customer" javaType="com.rom.entity.Customer">  
+            <id column="customerId" property="customerId" />  
+            <result column="customerName" property="customerName" />  
+            <result column="customerTel" property="customerTel" />  
+        </association>  
+    </resultMap>
+	
+	
+	  
+  <!-- ====================================		初始化数据（调用存储过程）	========================================= -->
+	<insert id="initData">
+		{call init_shiro_demo()}
+	</insert>
+  
+  <!-- ====================================		初始化数据（调用存储过程）	========================================= -->
+  
+  
+  <sql id="Base_Column_List" >
+    id, nickname, email, pswd, create_time, last_login_time,status
+  </sql>
+    
+  <!-- 根据邮箱|帐号查询 -->
+  <select id="findUserByEmail" resultMap="BaseResultMap" >
+  	 select 
+    <include refid="Base_Column_List" />
+    from u_user
+    where email = #{email,jdbcType=VARCHAR} 
+  </select>
+  
